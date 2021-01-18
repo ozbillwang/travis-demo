@@ -14,4 +14,5 @@ before_install:
 script:
   - docker version
   - docker buildx version
+  - BUILDX_PLATFORMS="linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6" & docker run --rm --privileged tonistiigi/binfmt:latest --install "$BUILDX_PLATFORMS"
   - docker buildx ls
