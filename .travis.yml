@@ -1,0 +1,8 @@
+sudo: required
+dist: focal
+services:
+  - docker
+
+script:
+  - docker version
+  - docker buildx ls
