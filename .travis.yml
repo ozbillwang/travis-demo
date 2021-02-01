@@ -1,19 +1,7 @@
 sudo: required
 dist: focal
 
-before_install:
-  - sudo rm -rf /var/lib/apt/lists/*
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) edge"
-  - sudo apt-get update
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-  - mkdir -vp ~/.docker/cli-plugins/
-  - curl --silent -L "https://github.com/docker/buildx/releases/download/v0.5.1/buildx-v0.5.1.linux-amd64" > ~/.docker/cli-plugins/docker-buildx
-  - chmod a+x ~/.docker/cli-plugins/docker-buildx
-
 script:
-  - docker version
-  - docker buildx version
-  - docker buildx install
-  - sudo docker run --rm --privileged tonistiigi/binfmt:latest --install "linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6"
-  - docker buildx ls
+  - kustomize_release_url=$(curl -vsIo /dev/null https://github.com/kubernetes-sigs/kustomize/releases/latest 2>&1 | grep 'location:' | cut -d ' ' -f 3)
+  - kustomize_version=$(basename "$kustomize_release_url")
+  - echo $kustomize_version
